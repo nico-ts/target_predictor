@@ -21,9 +21,18 @@ print(df.head())
 df['target'] = df['target'].map(lambda x: dict(eval(x)))
 
 d = df['target'].apply(pd.Series)
-print(d)
-#d.to_csv('file100.csv')
+#print(d)
+
+c = d['custom_audiences'].apply(pd.Series)
+c.columns = c.columns.astype(str)
+c = c.rename(columns=lambda x: x+'_aud') 
+#print(c)
 
 b = d['excluded_custom_audiences'].apply(pd.Series)
-print(b)
-#b.to_csv('file101.csv')
+b.columns = b.columns.astype(str)
+b = b.rename(columns=lambda x: x+'_excl') 
+#print(b)
+
+a = pd.concat([d, c, b], axis = 1)
+print(a)
+#a.to_csv('file102.csv')
